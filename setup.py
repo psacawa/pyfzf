@@ -36,7 +36,7 @@ def read(filename):
 
 LONG_DESC = read('README.md') + '\nCHANGES\n=======\n\n' + read('CHANGES')
 
-setup(name='pyfzf',
+setup(name='psacawa-pyfzf',
 	  include_package_data=True,
       version=read('VERSION').strip('\n'),
       description="Python wrapper for junegunn's fuzzyfinder (fzf)",
@@ -46,7 +46,7 @@ setup(name='pyfzf',
       author_email='nagarjuna.412@gmail.com',
       url='https://github.com/nk412/pyfzf',
       install_requires=['plumbum'],
-      py_modules=['pyfzf'],
+      py_modules=['psacawa_pyfzf'],
 	  packages=['pyfzf'],
       classifiers=[
           'Development Status :: 4 - Beta',
