@@ -22,7 +22,7 @@
 #
 # Author: Nagarjuna Kumarappan <nagarjuna.412@gmail.com>
 
-from plumbum import local, FG
+from plumbum import local, FG, ProcessExecutionError 
 import tempfile
 import os
 
@@ -32,28 +32,36 @@ FZF_URL = "https://github.com/junegunn/fzf"
 
 class FzfPrompt:
     def __init__(self):
-        self.sh = local['sh']
+        self.sh = local["sh"]
         try:
-            self.fzf = local['fzf']
+            self.fzf = local["fzf"]
         except:
-            raise SystemError("Cannot find 'fzf' installed on PATH. ( {0} )".format(FZF_URL))
+            raise SystemError(
+                "Cannot find 'fzf' installed on PATH. ( {0} )".format(FZF_URL)
+            )
 
-    def prompt(self, choices=None, delimiter='\n', fzf_options=""):
+    def prompt(self, choices=None, delimiter="\n", fzf_options=""):
         # convert lists to strings [ 1, 2, 3 ] => "1\n2\n3"
         choices_str = delimiter.join(map(str, choices))
         selection = []
         with tempfile.NamedTemporaryFile() as input_file:
             with tempfile.NamedTemporaryFile() as output_file:
                 # Create an temp file with list entries as lines
-                input_file.write(choices_str.encode('utf-8'))
+                input_file.write(choices_str.encode("utf-8"))
                 input_file.flush()
 
                 # Invoke fzf externally and write to output file
-                self.sh['-c', f"cat {input_file.name} | fzf {fzf_options} > {output_file.name}"] & FG
+                try:
+                    self.sh[
+                        "-c",
+                        f"cat {input_file.name} | fzf {fzf_options} > {output_file.name}",
+                    ] & FG
+                except ProcessExecutionError as e:
+                    pass
 
                 # get selected options
                 with open(output_file.name) as f:
                     for line in f:
-                        selection.append(line.strip('\n'))
+                        selection.append(line.strip("\n"))
 
         return selection
