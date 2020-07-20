@@ -38,7 +38,7 @@ class FzfPrompt:
         except:
             raise SystemError("Cannot find 'fzf' installed on PATH. ( {0} )".format(FZF_URL))
 
-    def prompt(self, choices=None, delimiter='\n' fzf_options=""):
+    def prompt(self, choices=None, delimiter='\n', fzf_options=""):
         # convert lists to strings [ 1, 2, 3 ] => "1\n2\n3"
         choices_str = delimiter.join(map(str, choices))
         selection = []

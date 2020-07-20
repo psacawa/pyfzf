@@ -47,7 +47,7 @@ setup(name='psacawa-pyfzf',
       url='https://github.com/nk412/pyfzf',
       install_requires=['plumbum'],
       py_modules=['psacawa_pyfzf'],
-	  packages=['pyfzf'],
+	  packages=['psacawa_pyfzf'],
       classifiers=[
           'Development Status :: 4 - Beta',
           'Environment :: Console',
